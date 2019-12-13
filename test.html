@@ -1,26 +1,75 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <title>ios Jump app</title>
-  <meta charset="utf-8">
-  <style type="text/css">
-    .back{
-      position:absolute;top:50px;left:360px;float:left;
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+</style>
+<script>
+  //自适应
+  function setRem() {
+    if (document.documentElement.clientWidth > 960) {
+      document.documentElement.style.fontSize = "120px";
+    } else {
+      document.documentElement.style.fontSize = 100 * document.documentElement.clientWidth / 750 + 'px';
     }
-  </style>
- <head>
- <body>
-   <div class="back">
-   <p>
-     <font size="20px">
-     <a href="com.ccb.ccbDemo://CCBCallCenter?funcid=90001001&businessId=18056_1_1570947990">Open Ios ccb</a>
-     </font>
-   </p>
-   <p>
-     <font size="20px">
-     <a href="ccbapp://main.ccb.com?funcid=90001001&businessid=18056_1_1570947998">Open android CCbapp</a>
-     </font>
-   </p>
-   </div>
- </body>
+  }
+  //设置rem
+  (function (obj) {
+    setRem();
+    obj.addEventListener('resize', function () {
+      setRem();
+    });
+  })(window)//自动适应rem
+
+</script>
+
+<body>
+  <div style="display:none;width:100%;height: 100%;background: rgba(0,0,0,0.85);position: fixed;top:0;z-index: 3;"
+    id="blockUI">
+    <img src="./img/arrow.png" style="position: fixed;top: .4rem;right: .5rem;width:25%;">
+    <div style="font-size: .6rem;color: #FFFFFF;position: fixed;top:2.5rem;width: 100%;text-align: center;">
+      请用浏览器打开
+    </div>
+  </div>
+</body>
+<script>
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var USER_Agent = navigator.userAgent;
+    var MOBILE_Iphone = /(iPhone|iPad|iPod|iOS)/i;
+    var MOBILE_Android = /(Android)/i;
+    var WX = /(micromessenger)/i;
+    var urlStr = window.location.href.split("?")[1]
+    // var funcid = "90001001";
+    // var param = "businessid=30026"//30022
+
+    if (WX.test(USER_Agent)) {
+      document.getElementById("blockUI").style.display = "block";
+      return;
+    } else if (MOBILE_Iphone.test(USER_Agent)) {
+      document.getElementById("blockUI").style.display = "none";
+      // alert("切换网络" + urlStr)
+      window.location.href = "com.ccb.ccbDemo://CCBCallCenter?" + urlStr;
+    } else if (MOBILE_Android.test(USER_Agent)) {
+      document.getElementById("blockUI").style.display = "none";
+      // alert("切换网络" + urlStr)
+      window.location.href = "ccbapp://main.ccb.com?" + urlStr;
+    }
+    setTimeout(function () {
+      window.location.href = "http://m.ccb.com/cn/mobilev3/home/include/download.html";
+    }, 6000);
+  });
+</script>
+
 </html>
